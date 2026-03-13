@@ -1,0 +1,88 @@
+2026-03-13 19:01:10 [main] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.splunk.SplunkApplicationTests]: SplunkApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-13 19:01:10 [main] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.splunk.SplunkApplication for test class com.example.splunk.SplunkApplicationTests
+2026-03-13 19:01:10 [main] INFO  org.springframework.boot.devtools.restart.RestartApplicationListener - Restart disabled due to context in which it is running
+2026-03-13 19:01:11 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2026-03-13 19:01:11 [main] INFO  com.example.splunk.SplunkApplicationTests - Starting SplunkApplicationTests using Java 24.0.2 with PID 72920 (started by gokulraj in /Users/gokulraj/Downloads/splunk)
+2026-03-13 19:01:11 [main] INFO  com.example.splunk.SplunkApplicationTests - Starting SplunkApplicationTests using Java 24.0.2 with PID 72920 (started by gokulraj in /Users/gokulraj/Downloads/splunk)
+2026-03-13 19:01:11 [main] DEBUG com.example.splunk.SplunkApplicationTests - Running with Spring Boot v3.3.2, Spring v6.1.11
+2026-03-13 19:01:11 [main] DEBUG com.example.splunk.SplunkApplicationTests - Running with Spring Boot v3.3.2, Spring v6.1.11
+2026-03-13 19:01:11 [main] INFO  com.example.splunk.SplunkApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-03-13 19:01:11 [main] INFO  com.example.splunk.SplunkApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-03-13 19:01:11 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-13 19:01:11 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 22 ms. Found 1 JPA repository interface.
+2026-03-13 19:01:11 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-13 19:01:11 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-03-13 19:01:11 [main] INFO  org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-13 19:01:11 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-13 19:01:11 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-13 19:01:11 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@41404aa2
+2026-03-13 19:01:11 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-13 19:01:12 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-13 19:01:12 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.SplunkApplicationTests - Started SplunkApplicationTests in 1.753 seconds (process running for 2.62)
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.SplunkApplicationTests - Started SplunkApplicationTests in 1.753 seconds (process running for 2.62)
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Starting Splunk HEC Health Check
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Starting Splunk HEC Health Check
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Splunk HEC URL: https://localhost:8088/services/collector
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Splunk HEC URL: https://localhost:8088/services/collector
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Attempting to connect to Splunk HEC at: https://localhost:8088/services/collector
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Attempting to connect to Splunk HEC at: https://localhost:8088/services/collector
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Splunk HEC Response Code: 405
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - Splunk HEC Response Code: 405
+2026-03-13 19:01:12 [main] WARN  com.example.splunk.util.SplunkHealthCheck - ⚠ Unexpected response from Splunk HEC: 405
+2026-03-13 19:01:12 [main] WARN  com.example.splunk.util.SplunkHealthCheck - ⚠ Unexpected response from Splunk HEC: 405
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [main] INFO  com.example.splunk.util.SplunkHealthCheck - ========================================
+2026-03-13 19:01:12 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-13 19:01:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-13 19:01:12 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-13T19:04:43.595+05:30  INFO 76290 --- [splunk] [restartedMain] com.example.splunk.SplunkApplication     : Starting SplunkApplication using Java 21.0.7 with PID 76290 (/Users/gokulraj/Downloads/splunk/target/classes started by gokulraj in /Users/gokulraj/Downloads/splunk)
+2026-03-13T19:04:43.596+05:30 DEBUG 76290 --- [splunk] [restartedMain] com.example.splunk.SplunkApplication     : Running with Spring Boot v3.3.2, Spring v6.1.11
+2026-03-13T19:04:43.597+05:30  INFO 76290 --- [splunk] [restartedMain] com.example.splunk.SplunkApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-13T19:04:43.616+05:30  INFO 76290 --- [splunk] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-13T19:04:43.616+05:30  INFO 76290 --- [splunk] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-13T19:04:43.910+05:30  INFO 76290 --- [splunk] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-13T19:04:43.930+05:30  INFO 76290 --- [splunk] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 1 JPA repository interface.
+2026-03-13T19:04:44.174+05:30  INFO 76290 --- [splunk] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8010 (http)
+2026-03-13T19:04:44.180+05:30  INFO 76290 --- [splunk] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-13T19:04:44.181+05:30  INFO 76290 --- [splunk] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2026-03-13T19:04:44.197+05:30  INFO 76290 --- [splunk] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-13T19:04:44.197+05:30  INFO 76290 --- [splunk] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 581 ms
+2026-03-13T19:04:44.273+05:30  INFO 76290 --- [splunk] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-13T19:04:44.304+05:30  INFO 76290 --- [splunk] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-03-13T19:04:44.319+05:30  INFO 76290 --- [splunk] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-13T19:04:44.466+05:30  INFO 76290 --- [splunk] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-13T19:04:44.478+05:30  INFO 76290 --- [splunk] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-13T19:04:44.779+05:30  INFO 76290 --- [splunk] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@bdad8eb
+2026-03-13T19:04:44.780+05:30  INFO 76290 --- [splunk] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-13T19:04:45.200+05:30  INFO 76290 --- [splunk] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-13T19:04:45.263+05:30  INFO 76290 --- [splunk] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-13T19:04:45.528+05:30  INFO 76290 --- [splunk] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-13T19:04:45.539+05:30  INFO 76290 --- [splunk] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8010 (http) with context path '/'
+2026-03-13T19:04:45.544+05:30  INFO 76290 --- [splunk] [restartedMain] com.example.splunk.SplunkApplication     : Started SplunkApplication in 2.211 seconds (process running for 2.497)
+2026-03-13T19:04:45.545+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : ========================================
+2026-03-13T19:04:45.545+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : Starting Splunk HEC Health Check
+2026-03-13T19:04:45.545+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : ========================================
+2026-03-13T19:04:45.545+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : Splunk HEC URL: https://localhost:8088/services/collector
+2026-03-13T19:04:45.546+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : Attempting to connect to Splunk HEC at: https://localhost:8088/services/collector
+2026-03-13T19:04:45.600+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : Splunk HEC Response Code: 405
+2026-03-13T19:04:45.600+05:30  WARN 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : ⚠ Unexpected response from Splunk HEC: 405
+2026-03-13T19:04:45.601+05:30  INFO 76290 --- [splunk] [restartedMain] c.example.splunk.util.SplunkHealthCheck  : ========================================
+2026-03-13T19:05:22.054+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-13T19:05:22.056+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-13T19:05:22.061+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-03-13T19:05:22.089+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-1] c.e.s.controller.EmployeeController      : Retrieving all employees
+2026-03-13T19:05:22.089+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-1] c.e.splunk.service.EmployeeService       : Retrieving all employees
+2026-03-13T19:06:54.580+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-3] c.e.s.controller.EmployeeController      : Retrieving all employees
+2026-03-13T19:06:54.582+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-3] c.e.splunk.service.EmployeeService       : Retrieving all employees
+2026-03-13T19:06:56.240+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-5] c.e.s.controller.EmployeeController      : Retrieving all employees
+2026-03-13T19:06:56.241+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-5] c.e.splunk.service.EmployeeService       : Retrieving all employees
+2026-03-13T19:06:56.990+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-7] c.e.s.controller.EmployeeController      : Retrieving all employees
+2026-03-13T19:06:56.991+05:30  INFO 76290 --- [splunk] [http-nio-8010-exec-7] c.e.splunk.service.EmployeeService       : Retrieving all employees
+2026-03-13T19:12:07.304+05:30  INFO 76290 --- [splunk] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-13T19:12:07.332+05:30  INFO 76290 --- [splunk] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-13T19:12:07.365+05:30  INFO 76290 --- [splunk] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" packages="com.splunk.logging">
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5level %c{1.} - %msg%n"/>
+        </Console>
+
+        <SplunkHttp
+                name="splunkhttp"
+                url="https://localhost:8088"
+                token="ea9302e8-f5b1-4663-a85c-eaa35df2495d"
+                index="main"
+                host="localhost"
+                sourcetype="log4j"
+                disableCertificateValidation="true"
+                displayExceptions="true">
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5level %c - %msg%n"/>
+        </SplunkHttp>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="splunkhttp"/>
+        </Root>
+
+        <Logger name="com.example.splunk" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="splunkhttp"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>
