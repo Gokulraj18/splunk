@@ -1,94 +1,61 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+        jdk 'JDK21'
+    }
+
     environment {
-        APP_NAME = 'splunk-crud-app'
-        MYSQL_CONTAINER = 'mysql-db'
-        MYSQL_ROOT_PASSWORD = 'Ggop1810'
-        MYSQL_DB = 'Splunk'
-        DOCKER_NETWORK = 'app-network'
-        SPRING_PROFILE = 'prod'
+        IMAGE_NAME = "splunk-crud-app"
     }
 
     stages {
-        stage('Clean Workspace') {
+
+        stage('Clone Repository') {
             steps {
-                echo "Cleaning workspace..."
-                deleteDir()
+                checkout scm
             }
         }
 
-        stage('Checkout Code') {
+        stage('Build') {
             steps {
-                git branch: 'main', url: 'https://github.com/Gokulraj18/splunk.git'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Build Spring Boot App') {
+        stage('Stop Old Container') {
             steps {
-                echo "Building Spring Boot app..."
-                sh './mvnw clean package -DskipTests' // skip tests to avoid Jenkins failure
+                sh 'docker stop splunk-app || true'
+                sh 'docker rm splunk-app || true'
             }
         }
 
-        stage('Docker Setup') {
+        stage('Remove Old Image') {
             steps {
-                echo "Creating Docker network if not exists..."
-                sh """
-                docker network inspect ${DOCKER_NETWORK} >/dev/null 2>&1 || docker network create ${DOCKER_NETWORK}
-                """
-
-                echo "Starting MySQL container..."
-                sh """
-                docker ps -a | grep ${MYSQL_CONTAINER} || docker run -d \\
-                    --name ${MYSQL_CONTAINER} \\
-                    --network ${DOCKER_NETWORK} \\
-                    -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \\
-                    -e MYSQL_DATABASE=${MYSQL_DB} \\
-                    -p 3306:3306 \\
-                    mysql:8.1
-                """
+                sh 'docker rmi $IMAGE_NAME || true'
             }
         }
 
-        stage('Docker Build & Deploy App') {
+        stage('Build Docker Image') {
             steps {
-                echo "Building and deploying Spring Boot Docker container..."
-                sh """
-                # Remove old container if exists
-                docker rm -f ${APP_NAME} >/dev/null 2>&1 || true
-
-                # Build app Docker image
-                docker build -t ${APP_NAME} .
-
-                # Run the app container
-                docker run -d \\
-                    --name ${APP_NAME} \\
-                    --network ${DOCKER_NETWORK} \\
-                    -e SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_CONTAINER}:3306/${MYSQL_DB} \\
-                    -e SPRING_DATASOURCE_USERNAME=root \\
-                    -e SPRING_DATASOURCE_PASSWORD=${MYSQL_ROOT_PASSWORD} \\
-                    -e SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect \\
-                    -p 8082:8080 \\
-                    ${APP_NAME}
-                """
+                sh 'docker build -t $IMAGE_NAME -f src/main/java/com/example/splunk/Dockerfile .'
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Run Container') {
             steps {
-                echo "Checking app status..."
-                sh 'docker ps | grep splunk-crud-app'
+                sh 'docker run -d -p 8081:8080 --name splunk-app $IMAGE_NAME'
             }
         }
     }
 
     post {
         success {
-            echo "Deployment successful!"
+            echo 'CI/CD Pipeline Completed Successfully'
         }
         failure {
-            echo "Pipeline failed. Check logs above for details."
+            echo 'Pipeline Failed'
         }
     }
 }
