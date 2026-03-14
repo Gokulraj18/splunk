@@ -45,6 +45,12 @@ public class EmployeeController {
 		return employeeService.getAll();
 	}
 
+	@GetMapping("/test")
+	public String Test() {
+		logger.info("Retrieving all employees");
+		return "For the Jenkins Deploement Testing...";
+	}
+
 	@GetMapping("/{id}")
 	public Employee getById(@PathVariable long id) {
 		logger.info("Retrieving employee with id: {}", id);
