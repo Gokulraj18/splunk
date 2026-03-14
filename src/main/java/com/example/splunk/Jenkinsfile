@@ -9,7 +9,7 @@ pipeline {
     environment {
         IMAGE_NAME = "splunk-crud-app"
         CONTAINER_NAME = "splunk-app"
-        SPLUNK_HEC_URL = 'https://localhost:8088/services/collector' // or host.docker.internal if Jenkins is in Docker
+        SPLUNK_HEC_URL = 'https://localhost:8088/services/collector'
     }
 
     stages {
@@ -35,6 +35,70 @@ pipeline {
             }
         }
 
+        stage('Remove Old Image') {
+            steps {
+                sh '''
+                docker rmi $IMAGE_NAME || true
+                '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME -f src/main/java/com/example/splunk/Dockerfile .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'SPLUNK_HEC_TOKEN')]) {
+                    sh """
+                    docker run -d -p 8081:8080 --name $CONTAINER_NAME \
+                    -e SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL \
+                    -e SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME \
+                    -e SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD \
+                    -e SPRING_DATASOURCE_DRIVER_CLASS_NAME=$SPRING_DATASOURCE_DRIVER_CLASS_NAME \
+                    -e SPRING_JPA_HIBERNATE_DDL_AUTO=$SPRING_JPA_HIBERNATE_DDL_AUTO \
+                    -e SPRING_JPA_SHOW_SQL=$SPRING_JPA_SHOW_SQL \
+                    -e SPLUNK_HEC_URL=$SPLUNK_HEC_URL \
+                    -e SPLUNK_HEC_TOKEN=$SPLUNK_HEC_TOKEN \
+                    $IMAGE_NAME
+                    """
+                }
+            }
+        }
+
+        stage('Send Test Log to Splunk') {
+            steps {
+                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'SPLUNK_HEC_TOKEN')]) {
+                    sh """
+                    curl -k $SPLUNK_HEC_URL \
+                      -H "Authorization: Splunk $SPLUNK_HEC_TOKEN" \
+                      -H "Content-Type: application/json" \
+                      -d '{
+                            "event": "Jenkins pipeline executed successfully",
+                            "source": "jenkins_pipeline",
+                            "sourcetype": "_json",
+                            "index": "main"
+                          }'
+                    """
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'CI/CD Pipeline Completed Successfully'
+        }
+
+        failure {
+            echo 'Pipeline Failed'
+        }
+    }
+
+}
         stage('Remove Old Image') {
             steps {
                 sh '''
