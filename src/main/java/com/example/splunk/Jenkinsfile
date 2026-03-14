@@ -44,7 +44,7 @@ pipeline {
         stage('Run Container & Debug') {
             steps {
                 withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    // Security note: Jenkins will still mask this as ****
+                    // This will show as **** in logs
                     sh "echo 'Deploying with token: ${HEC_TOKEN}'"
                     
                     sh '''
