@@ -1,82 +1,46 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK21'
-    }
-
     environment {
         IMAGE_NAME = "splunk-crud-app"
-        CONTAINER_NAME = "splunk-app"
-        // If Splunk is on your Mac and Jenkins is in Docker, use:
-        // SPLUNK_HEC_URL = 'https://host.docker.internal:8088/services/collector'
-        SPLUNK_HEC_URL = 'https://localhost:8088/services/collector'
+        MYSQL_CONTAINER = "mysql-db"
+        APP_CONTAINER = "splunk-crud-app"
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Build') {
             steps {
-                checkout scm
+                sh './mvnw clean package -DskipTests'
             }
         }
 
-        stage('Build & Test') {
+        stage('Test') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh './mvnw test'
             }
         }
 
-        stage('Stop & Remove Old Container') {
+        stage('Docker Build & Deploy') {
             steps {
-                sh '''
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
-                    docker rmi ${IMAGE_NAME} || true
-                '''
-            }
-        }
+                // Build Docker image
+                sh "docker build -t ${IMAGE_NAME} ."
 
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t ${IMAGE_NAME} -f src/main/java/com/example/splunk/Dockerfile .'
-            }
-        }
+                // Stop and remove old container
+                sh "docker rm -f ${APP_CONTAINER} || true"
 
-        stage('Run Container') {
-            steps {
-                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    sh '''
-                        docker run -d -p 8081:8080 --name ${CONTAINER_NAME} \
-                        -e SPLUNK_HEC_URL=${SPLUNK_HEC_URL} \
-                        -e SPLUNK_HEC_TOKEN=${HEC_TOKEN} \
-                        ${IMAGE_NAME}
-                    '''
-                }
+                // Run new container
+                sh """
+                docker run -d \
+                  --name ${APP_CONTAINER} \
+                  --network app-network \
+                  -e SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_CONTAINER}:3306/Splunk \
+                  -e SPRING_DATASOURCE_USERNAME=root \
+                  -e SPRING_DATASOURCE_PASSWORD=Ggop1810 \
+                  -e SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect \
+                  -p 8082:8080 \
+                  ${IMAGE_NAME}
+                """
             }
-        }
-
-        stage('Send Test Log to Splunk') {
-            steps {
-                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    sh '''
-                        echo "Testing Splunk connectivity..."
-                        curl -f -i -k "${SPLUNK_HEC_URL}" \
-                        -H "Authorization: Splunk ${HEC_TOKEN}" \
-                        -H "Content-Type: application/json" \
-                        -d '{"event": "Jenkins Deployment Success", "sourcetype": "_json"}'
-                    '''
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'CI/CD Pipeline Completed Successfully!'
-        }
-        failure {
-            echo 'Pipeline Failed. Verify your Splunk HEC Token and Global Settings.'
         }
     }
 }
