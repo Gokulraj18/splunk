@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "splunk-crud-app"
-        # SPRING_DATASOURCE_URL and SPRING_DATASOURCE_PASSWORD are already set in Jenkins
+        
     }
 
     stages {
