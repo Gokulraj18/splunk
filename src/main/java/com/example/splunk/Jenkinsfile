@@ -59,21 +59,17 @@ pipeline {
 
         stage('Send Test Log to Splunk') {
             steps {
-                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'SECRET_TOKEN')]) {
+                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
                     sh '''
-                        curl -f -k ${SPLUNK_HEC_URL} \
-                        -H "Authorization: Splunk ${SECRET_TOKEN}" \
+                        echo "Testing connection to ${SPLUNK_HEC_URL}..."
+                        curl -i -k "${SPLUNK_HEC_URL}" \
+                        -H "Authorization: Splunk ${HEC_TOKEN}" \
                         -H "Content-Type: application/json" \
-                        -d '{
-                            "event": "Jenkins pipeline executed successfully",
-                            "sourcetype": "_json",
-                            "index": "main"
-                        }'
+                        -d '{"event": "Jenkins Test", "sourcetype": "_json"}'
                     '''
                 }
             }
         }
-    }
 
     post {
         success { echo 'CI/CD Pipeline Completed Successfully' }
