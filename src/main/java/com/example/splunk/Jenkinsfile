@@ -41,10 +41,12 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
+        stage('Run Container & Debug') {
             steps {
                 withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    // Using single quotes ''' prevents the "Insecure" warning and masking of variable names
+                    // Security note: Jenkins will still mask this as ****
+                    sh "echo 'Deploying with token: ${HEC_TOKEN}'"
+                    
                     sh '''
                         docker run -d -p 8081:8080 --name ${CONTAINER_NAME} \
                         -e SPLUNK_HEC_URL=${SPLUNK_HEC_URL} \
@@ -59,13 +61,11 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
                     sh '''
+                        echo "Testing connection to ${SPLUNK_HEC_URL}..."
                         curl -i -k "${SPLUNK_HEC_URL}" \
                         -H "Authorization: Splunk ${HEC_TOKEN}" \
                         -H "Content-Type: application/json" \
-                        -d '{
-                            "event": "Jenkins pipeline executed successfully",
-                            "sourcetype": "_json"
-                        }'
+                        -d '{"event": "Jenkins pipeline test", "sourcetype": "_json"}'
                     '''
                 }
             }
@@ -79,46 +79,5 @@ pipeline {
         failure {
             echo 'Pipeline Failed - Check Splunk Token permissions or Network'
         }
-    }
-}
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t ${IMAGE_NAME} -f src/main/java/com/example/splunk/Dockerfile .'
-            }
-        }
-
-        stage('Run Container & Debug') {
-            steps {
-                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'SECRET_TOKEN')]) {
-                    // This will likely still show as **** in logs due to Jenkins masking
-                    sh "echo 'Deploying with token: ${SECRET_TOKEN}'"
-                    
-                    sh '''
-                        docker run -d -p 8081:8080 --name ${CONTAINER_NAME} \
-                        -e SPLUNK_HEC_URL=${SPLUNK_HEC_URL} \
-                        -e SPLUNK_HEC_TOKEN=${SECRET_TOKEN} \
-                        ${IMAGE_NAME}
-                    '''
-                }
-            }
-        }
-
-        stage('Send Test Log to Splunk') {
-            steps {
-                withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    sh '''
-                        echo "Testing connection to ${SPLUNK_HEC_URL}..."
-                        curl -i -k "${SPLUNK_HEC_URL}" \
-                        -H "Authorization: Splunk ${HEC_TOKEN}" \
-                        -H "Content-Type: application/json" \
-                        -d '{"event": "Jenkins Test", "sourcetype": "_json"}'
-                    '''
-                }
-            }
-        }
-
-    post {
-        success { echo 'CI/CD Pipeline Completed Successfully' }
-        failure { echo 'Pipeline Failed - Check Splunk Token or Network' }
     }
 }
