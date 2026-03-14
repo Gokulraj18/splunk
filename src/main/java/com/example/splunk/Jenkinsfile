@@ -9,6 +9,8 @@ pipeline {
     environment {
         IMAGE_NAME = "splunk-crud-app"
         CONTAINER_NAME = "splunk-app"
+        // If Splunk is on your Mac and Jenkins is in Docker, use:
+        // SPLUNK_HEC_URL = 'https://host.docker.internal:8088/services/collector'
         SPLUNK_HEC_URL = 'https://localhost:8088/services/collector'
     }
 
@@ -27,11 +29,11 @@ pipeline {
 
         stage('Stop & Remove Old Container') {
             steps {
-                sh """
+                sh '''
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
                     docker rmi ${IMAGE_NAME} || true
-                """
+                '''
             }
         }
 
@@ -41,12 +43,9 @@ pipeline {
             }
         }
 
-        stage('Run Container & Debug') {
+        stage('Run Container') {
             steps {
                 withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
-                    // This will show as **** in logs
-                    sh "echo 'Deploying with token: ${HEC_TOKEN}'"
-                    
                     sh '''
                         docker run -d -p 8081:8080 --name ${CONTAINER_NAME} \
                         -e SPLUNK_HEC_URL=${SPLUNK_HEC_URL} \
@@ -61,11 +60,11 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SPLUNK_HEC_TOKEN', variable: 'HEC_TOKEN')]) {
                     sh '''
-                        echo "Testing connection to ${SPLUNK_HEC_URL}..."
-                        curl -i -k "${SPLUNK_HEC_URL}" \
+                        echo "Testing Splunk connectivity..."
+                        curl -f -i -k "${SPLUNK_HEC_URL}" \
                         -H "Authorization: Splunk ${HEC_TOKEN}" \
                         -H "Content-Type: application/json" \
-                        -d '{"event": "Jenkins pipeline test", "sourcetype": "_json"}'
+                        -d '{"event": "Jenkins Deployment Success", "sourcetype": "_json"}'
                     '''
                 }
             }
@@ -74,10 +73,10 @@ pipeline {
 
     post {
         success {
-            echo 'CI/CD Pipeline Completed Successfully'
+            echo 'CI/CD Pipeline Completed Successfully!'
         }
         failure {
-            echo 'Pipeline Failed - Check Splunk Token permissions or Network'
+            echo 'Pipeline Failed. Verify your Splunk HEC Token and Global Settings.'
         }
     }
 }
