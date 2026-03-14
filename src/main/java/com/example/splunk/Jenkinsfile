@@ -20,7 +20,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo/splunk-crud-app.git'
+                git branch: 'main', url: 'https://github.com/Gokulraj18/splunk.git'
             }
         }
 
